@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.dels.notisimas.ui.MainFragment"
+        android:label="@string/MainFragment_label"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_noteEditorFragment"
+            app:destination="@id/noteEditorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+    android:id="@+id/noteEditorFragment"
+    android:name="com.dels.notisimas.ui.NoteEditorFragment"
+    android:label="@string/NoteEditorFragment_label"
+    tools:layout="@layout/fragment_main">
+
+        <argument android:name="noteId"
+            app:argType="integer"
+            android:defaultValue="0"/>
+    </fragment>
+
+
+</navigation>

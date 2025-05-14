@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base App Theme -->
+    <style name="Base.Theme.Notisimas" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Personaliza tu tema aquí -->
+    </style>
+
+    <style name="Theme.Notisimas" parent="Base.Theme.Notisimas" />
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.Notisimas.Splash" parent="Theme.SplashScreen">
+        <!-- Ícono central del splash screen -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/iconround</item>
+
+        <!-- Color de fondo del splash screen -->
+        <item name="windowSplashScreenBackground">@color/white</item>
+
+        <!-- Tema que se aplicará después del splash -->
+        <item name="postSplashScreenTheme">@style/Theme.Notisimas</item>
+    </style>
+
+</resources>

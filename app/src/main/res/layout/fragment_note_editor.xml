@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/note_editor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <!-- HEADER: Ícono + Título -->
+    <LinearLayout
+        android:id="@+id/Header"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/noteIcon"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:background="#5158b0" />
+
+        <EditText
+            android:id="@+id/noteTitle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="top|center"
+            android:padding="8dp"
+            android:hint="@string/tap_to_write"
+            android:textSize="18sp"
+            android:background="#dfddf6" />
+    </LinearLayout>
+
+    <!-- CONTENIDO: Cuerpo de la nota -->
+    <EditText
+        android:id="@+id/noteContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:padding="16dp"
+        android:autofillHints="@string/note_content"
+        android:hint="@string/tap_to_write"
+        android:textSize="18sp"
+        android:background="#FFFFFF"
+        android:textColor="#000000" />
+</LinearLayout>
