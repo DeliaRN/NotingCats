@@ -14,18 +14,20 @@ class NoteEditorViewModel(private val repository: NoteRepository) : ViewModel() 
 
     val allNotes: LiveData<List<NoteEntity>> = repository.getAll()
 
-
     fun getNoteById(id: Int) : LiveData<NoteEntity?> = repository.getNoteById(id)
 
-    fun insertNote(note: NoteEntity) {
-        viewModelScope.launch { repository.insertNote(note) }
-    }
+    fun insertNote(note: NoteEntity) = viewModelScope.launch { repository.insertNote(note) }
 
     fun updateNote(note: NoteEntity) {
         viewModelScope.launch { repository.updateNote(note) }
     }
 
     fun deleteNote(id: Int) {
-        viewModelScope.launch { repository.deleteNote(id) }
+        viewModelScope.launch {
+            val note = repository.getNoteById(id)
+            if (note != null) {
+                repository.deleteNote(id)
+            }
+        }
     }
 }

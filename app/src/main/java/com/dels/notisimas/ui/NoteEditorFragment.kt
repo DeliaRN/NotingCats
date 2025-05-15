@@ -1,6 +1,5 @@
 package com.dels.notisimas.ui
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.activity.addCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.dels.notisimas.Note.Note
 
 import com.dels.notisimas.R
 import com.dels.notisimas.data.NoteDatabase
@@ -47,6 +46,11 @@ class NoteEditorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (requireActivity() as? MainActivity)?.setAddButtonEnabled(false)
+        (requireActivity() as? MainActivity)?.setAdderAsDeleter(true) {
+            confirmarBorrado()
+        }
+
         val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
 
         titleEditText = view.findViewById(R.id.noteTitle)
@@ -91,14 +95,26 @@ class NoteEditorFragment : Fragment() {
 
             }
         }
-
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (requireActivity() as? MainActivity)?.setAdderAsDeleter(false)
     }
+
+    /**
+     *  Funciones auxiliares de navegación y funcionalidad del NoteEditor:
+     *
+     *  guardarNota(): añade o actualiza la nota. Al terminar la función,
+     *  devuelve el botón de añadir nota a su estado original.
+     *  Puesto aquí para evitar duplicar código y garantizar la acción modular
+     *  del código. Si se guarda, sí o sí tiene que volver a su estado.
+     *
+     *  confirmarBorrado(): Spawnea un diálogo de confirmación.
+     *  En caso afirmativo, borra la nota y vuelve a la página principal.
+     *  En caso negativo, no hace nada.
+     */
 
     private fun guardarNota() {
         val title = titleEditText.text.toString()
@@ -108,19 +124,40 @@ class NoteEditorFragment : Fragment() {
         if (title.isBlank() && content.isBlank()) return //Da igual si puso icono, color, o no
 
         val note = NoteEntity(
-            id = if (args.noteId == 0) 0 else args.noteId,
+            id = if (args.noteId == -1) 0 else args.noteId,
             title = title,
             content = content,
             colorHex = "#ffffff"
         )
 
         lifecycleScope.launch {
-            if (args.noteId == 0) {
+            if (args.noteId == -1) {
                 viewModel.insertNote(note)
             } else {
                 viewModel.updateNote(note)
             }
         }
+        /**
+         * Garantizar que el botón de añadir nota se activa al salir de la vista
+         */
+        (requireActivity() as? MainActivity)?.setAddButtonEnabled(true)
+        (requireActivity() as? MainActivity)?.setAdderAsDeleter(false)
+    }
 
+
+    private fun confirmarBorrado() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("¿Estás segurrrrro?")
+            .setMessage("La borrarás para siempre")
+            .setIcon(R.drawable.helper_cat)
+            .setPositiveButton("Eliminar") {_, _ ->
+                lifecycleScope.launch {
+                    viewModel.deleteNote(args.noteId)
+                    (requireActivity() as? MainActivity)?.setAdderAsDeleter(false)
+                    findNavController().navigateUp()
+                }
+            }
+            .setNegativeButton("Mejor no", null)
+            .show()
     }
 }

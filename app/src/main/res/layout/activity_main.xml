@@ -54,14 +54,13 @@
         android:layout_height="100dp"
         android:background="@drawable/adder_cat"
         app:tint="@android:color/white"
-        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_gravity="bottom|end" />
+        android:layout_gravity="bottom|center" />
 
 
     <ImageButton
         android:id="@+id/helper_fab"
-        android:contentDescription="@string/new_note"
+        android:contentDescription="@string/helper"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/helper_cat"
@@ -73,14 +72,15 @@
 
     <ImageButton
         android:id="@+id/setter_fab"
-        android:contentDescription="@string/new_note"
+        android:contentDescription="@string/setter"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/setter_cat"
         app:tint="@android:color/white"
         android:paddingEnd="30dp"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_gravity="bottom|center" />
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_gravity="bottom|end" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

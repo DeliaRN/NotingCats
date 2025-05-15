@@ -50,4 +50,6 @@
     <string name="MainFragment_label">MainFragment</string>
     <string name="NoteEditorFragment_label">NoteEditorFragment</string>
     <string name="tap_to_write">Pulsa para escribir...</string>
+    <string name="helper">Helper</string>
+    <string name="setter">Setter</string>
 </resources>
