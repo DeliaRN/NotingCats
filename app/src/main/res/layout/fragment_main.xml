@@ -21,7 +21,5 @@
             android:padding="16dp"
             android:paddingBottom="100dp" /> <!-- deja espacio para el botón -->
 
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

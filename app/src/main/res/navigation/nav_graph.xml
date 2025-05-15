@@ -10,6 +10,8 @@
         android:name="com.dels.notisimas.ui.MainFragment"
         android:label="@string/MainFragment_label"
         tools:layout="@layout/fragment_main">
+
+        <!-- ACCIÓN DE MAIN A EDITOR (haciendo click en nota)-->
         <action
             android:id="@+id/action_mainFragment_to_noteEditorFragment"
             app:destination="@id/noteEditorFragment"
@@ -17,6 +19,15 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+
+        <!-- ACCIÓN DE MAIN A CRATOR (haciendo click en adder) -->
+        <action
+            android:id="@+id/action_mainFragmentToNoteCreatorFragment"
+            app:destination="@id/noteCreatorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -29,6 +40,15 @@
             app:argType="integer"
             android:defaultValue="0"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/noteCreatorFragment"
+        android:name="com.dels.notisimas.ui.NoteCreatorFragment">
+    <argument
+        android:name="noteId"
+        app:argType="integer"
+        android:defaultValue="-1" />
+</fragment>
 
 
 </navigation>

@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         /**
          * Adder button for new notes
          */
-        //ESTÁ HACIENDO COSAS RARAS - REVISAR
         val adderButton = findViewById<ImageButton>(R.id.adder_fab)
         adderButton?.isEnabled = true
         adderButton.setOnClickListener{
@@ -57,8 +56,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         adderButton.setOnClickListener{
-            val action = MainFragmentDirections.actionMainFragmentToNoteEditorFragment(noteId = -1)
-            navController.navigate(action)
+            /*val action = MainFragmentDirections.actionMainFragmentToNoteCreatorFragment(noteId = -1)
+            navController.navigate(action)*/
+            openNoteCreatorFragment()
         }
 
         /**
@@ -87,22 +87,26 @@ class MainActivity : AppCompatActivity() {
         val adderButton = findViewById<ImageButton>(R.id.adder_fab)
 
         if(enabled) {
-            adderButton.setImageResource(R.drawable.eraser_cat)
+            adderButton.setBackgroundResource(R.drawable.eraser_cat)
             adderButton.setOnClickListener{
                 onClick?.invoke()
             }
         } else {
-            adderButton.setImageResource(R.drawable.adder_cat)
+            adderButton.setBackgroundResource(R.drawable.adder_cat)
             adderButton.setOnClickListener{
-                openNoteEditorFragment() //OPEN EDITOR CREATOR
+                openNoteCreatorFragment() //OPEN NOTE CREATOR
             }
         }
     }
 
-    fun setAddButtonEnabled(enabled: Boolean) {
-        val adderButton = findViewById<ImageButton>(R.id.adder_fab)
-        adderButton.isEnabled = enabled
-        adderButton.alpha = if (enabled) 1.0f else 0.5f // opcional, efecto visual
+
+    private fun openNoteCreatorFragment() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val action = MainFragmentDirections.actionMainFragmentToNoteCreatorFragment(noteId = -1)
+        navController.navigate(action)
     }
 
 }

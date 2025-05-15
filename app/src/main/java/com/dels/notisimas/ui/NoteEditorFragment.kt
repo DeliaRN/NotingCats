@@ -23,9 +23,6 @@ import com.dels.notisimas.data.NoteRepository
 import kotlinx.coroutines.launch
 
 class NoteEditorFragment : Fragment() {
-    /**
-     *  Lógica de notas
-     * */
 
     private lateinit var viewModel: NoteEditorViewModel
     private val args: NoteEditorFragmentArgs by navArgs()
@@ -43,10 +40,10 @@ class NoteEditorFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (requireActivity() as? MainActivity)?.setAddButtonEnabled(false)
         (requireActivity() as? MainActivity)?.setAdderAsDeleter(true) {
             confirmarBorrado()
         }
@@ -72,6 +69,7 @@ class NoteEditorFragment : Fragment() {
         /**
          * Doble opción de navegación: Tenemos el botón físimo de atrás y el botón de la toolbar
          */
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             guardarNota()
             findNavController().navigateUp()
@@ -140,7 +138,6 @@ class NoteEditorFragment : Fragment() {
         /**
          * Garantizar que el botón de añadir nota se activa al salir de la vista
          */
-        (requireActivity() as? MainActivity)?.setAddButtonEnabled(true)
         (requireActivity() as? MainActivity)?.setAdderAsDeleter(false)
     }
 

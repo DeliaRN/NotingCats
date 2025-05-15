@@ -6,24 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.activity.addCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.navigateUp
 import com.dels.notisimas.R
 import com.dels.notisimas.data.NoteDatabase
 import com.dels.notisimas.data.NoteCreatorViewModelFactory
+import com.dels.notisimas.data.NoteEntity
 import com.dels.notisimas.data.NoteRepository
-
-
+import kotlinx.coroutines.launch
 
 class NoteCreatorFragment : Fragment() {
 
+    private lateinit var viewModel: NoteCreatorViewModel
+    private val args: NoteCreatorFragmentArgs by navArgs()
     private lateinit var titleEditText: EditText
     private lateinit var  contentEditText: EditText
-    private lateinit var viewModel: NoteCreatorViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +45,9 @@ class NoteCreatorFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (requireActivity() as? MainActivity)?.setAddButtonEnabled(false)
-        (requireActivity() as? MainActivity)?.setAdderAsDeleter(true)
+        (requireActivity() as? MainActivity)?.setAdderAsDeleter(true) {
+            confirmarBorrado()
+        }
 
         val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
 
@@ -61,21 +67,80 @@ class NoteCreatorFragment : Fragment() {
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         activity.supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        /**
+         * Doble opción de navegación: Tenemos el botón físimo de atrás y el botón de la toolbar
+         */
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            guardarNota() // implement
+            guardarNota()
             findNavController().navigateUp()
         }
 
         toolbar.setNavigationOnClickListener {
-            guardarNota() // implement
-            findNavController()
+            guardarNota()
+            findNavController().navigateUp()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (requireActivity() as? MainActivity)?.setAddButtonEnabled(true)
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (requireActivity() as? MainActivity)?.setAdderAsDeleter(false)
+    }
+
+    /**
+     *  Funciones auxiliares de navegación y funcionalidad del NoteEditor:
+     *
+     *  guardarNota(): añade o actualiza la nota. Al terminar la función,
+     *  devuelve el botón de añadir nota a su estado original.
+     *  Puesto aquí para evitar duplicar código y garantizar la acción modular
+     *  del código. Si se guarda, sí o sí tiene que volver a su estado.
+     *
+     *  confirmarBorrado(): Spawnea un diálogo de confirmación.
+     *  En caso afirmativo, borra la nota y vuelve a la página principal.
+     *  En caso negativo, no hace nada.
+     *
+     *  NOTA: En un futuro, probablemente debería extraerse a una clase abstracta padre
+     *  para centralizar estas dos funciones en un único modelo BaseNoteFragment.
+     */
+
+    private fun guardarNota() {
+        val title = titleEditText.text.toString()
+        val content = contentEditText.text.toString()
+        //val icon = view?.findViewById<Image?>(R.id.noteIcon)?.text.toString() ??
+
+        if (title.isBlank() && content.isBlank()) return //Da igual si puso icono, color, o no
+
+        val note = NoteEntity(
+            id = if (args.noteId == -1) 0 else args.noteId,
+            title = title,
+            content = content,
+            colorHex = "#ffffff"
+        )
+
+        lifecycleScope.launch {
+                viewModel.insertNote(note)
+        }
+        /**
+         * Garantizar que el botón de añadir nota se activa al salir de la vista
+         */
+        (requireActivity() as? MainActivity)?.setAdderAsDeleter(false)
+    }
+
+    private fun confirmarBorrado() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("¿Estás segurrrrro?")
+            .setMessage("La borrarás para siempre")
+            .setIcon(R.drawable.helper_cat)
+            .setPositiveButton("Eliminar") {_, _ ->
+                lifecycleScope.launch {
+                    viewModel.deleteNote(args.noteId)
+                    (requireActivity() as? MainActivity)?.setAdderAsDeleter(false)
+                    findNavController().navigateUp()
+                }
+            }
+            .setNegativeButton("Mejor no", null)
+            .show()
     }
 
 }
