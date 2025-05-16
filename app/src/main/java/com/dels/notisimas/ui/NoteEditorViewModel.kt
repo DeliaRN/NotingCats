@@ -1,6 +1,7 @@
 package com.dels.notisimas.ui
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dels.notisimas.data.*
@@ -29,5 +30,12 @@ class NoteEditorViewModel(private val repository: NoteRepository) : ViewModel() 
                 repository.deleteNote(id)
             }
         }
+    }
+
+    private val _selectedIconRes = MutableLiveData<Int>()
+    val selectedIcon: LiveData<Int> = _selectedIconRes
+
+    fun setSelectedIcon(resId: Int) {
+        _selectedIconRes.value = resId
     }
 }

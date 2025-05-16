@@ -1,16 +1,20 @@
 package com.dels.notisimas.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionScene.Transition.TransitionOnClick
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieAnimationView
 
 
@@ -30,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //Log.d("ICON_ID", "note_icon1 ID = ${R.drawable.note_icon1}")
 
         /**
          * Se llama a la animación cuando la app se abre.
@@ -67,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         val helperButton = findViewById<ImageButton>(R.id.helper_fab)
         helperButton.setOnClickListener{
             Toast.makeText(this, "¡Ayudando...!", Toast.LENGTH_SHORT).show()
+            ayudaInutil()
         }
 
         /**
@@ -74,6 +81,7 @@ class MainActivity : AppCompatActivity() {
          */
         val setterButton = findViewById<ImageButton>(R.id.setter_fab)
         setterButton.setOnClickListener{
+
             Toast.makeText(this, "¡Ajustando...!", Toast.LENGTH_SHORT).show()
         }
 
@@ -109,4 +117,16 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(action)
     }
 
+    private fun ayudaInutil() {
+        AlertDialog.Builder(this)
+            .setTitle("Soy el Gato Ayudante")
+            .setMessage("De momento, no ayudo mucho. \nSólo te informo de que puedes:" +
+                    "\n- Editar las notas tocándolas" +
+                    "\n- Crear notas nuevas tocando a mi colega, el gato Añadidor" +
+                    "\n Todos los elementos de las notas son editables, título, contenido ¡e icono!" +
+                    "\n \n~¡Por cierto! Que no te engañe el Gato Ajustador, es un mentiroso...")
+            .setIcon(R.drawable.helper_cat)
+            .setNeutralButton("Ok..?", null)
+            .show()
+    }
 }

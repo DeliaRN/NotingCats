@@ -20,7 +20,8 @@
             android:layout_weight="1"
             android:gravity="center_vertical|start"
             android:padding="8dp"
-            android:textSize="18sp"
+            android:textSize="24sp"
+            android:textStyle="bold"
             android:background="#dfddf6" />
 
 </LinearLayout>

@@ -52,4 +52,13 @@
     <string name="tap_to_write">Pulsa para escribir...</string>
     <string name="helper">Helper</string>
     <string name="setter">Setter</string>
+    <string name="icon1">icon1</string>
+    <string name="icon9">icon9</string>
+    <string name="icon8">icon8</string>
+    <string name="icon7">icon7</string>
+    <string name="icon6">icon6</string>
+    <string name="icon5">icon5</string>
+    <string name="icon4">icon4</string>
+    <string name="icon3">icon3</string>
+    <string name="icon2">icon2</string>
 </resources>
