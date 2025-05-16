@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/icon_chooser_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/theme"
+    android:padding="16dp"
+    android:elevation="8dp"
+    android:layout_gravity="center"
+    >
+
+    <GridLayout
+        android:id="@+id/icon_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alignmentMode="alignMargins"
+        android:columnCount="3"
+        android:columnOrderPreserved="false"
+        android:rowCount="3"
+        android:useDefaultMargins="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="16dp">
+
+        <ImageButton
+            android:id="@+id/icon1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon1"
+            android:background="@drawable/note_icon1" />
+
+        <ImageButton
+            android:id="@+id/icon2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon2"
+            android:background="@drawable/note_icon2" />
+
+        <ImageButton
+            android:id="@+id/icon3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon3"
+            android:background="@drawable/note_icon3" />
+
+        <ImageButton
+            android:id="@+id/icon4"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon4"
+            android:background="@drawable/note_icon4" />
+
+        <ImageButton
+            android:id="@+id/icon5"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon5"
+            android:background="@drawable/note_icon5" />
+
+        <ImageButton
+            android:id="@+id/icon6"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon6"
+            android:background="@drawable/note_icon6" />
+
+        <ImageButton
+            android:id="@+id/icon7"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon7"
+            android:background="@drawable/note_icon7" />
+
+        <ImageButton
+            android:id="@+id/icon8"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon8"
+            android:background="@drawable/note_icon8" />
+
+        <ImageButton
+            android:id="@+id/icon9"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/icon9"
+            android:background="@drawable/note_icon9"
+            />
+    </GridLayout>
+</FrameLayout>

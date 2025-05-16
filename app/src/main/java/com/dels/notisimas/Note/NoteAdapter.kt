@@ -3,6 +3,7 @@ package com.dels.notisimas.Note
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dels.notisimas.R
@@ -15,8 +16,8 @@ class NoteAdapter(
 
     inner class NoteViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        //val icon: ImageView = itemView.findViewById(R.id.noteIcon)
-        val title: TextView = itemView.findViewById(R.id.noteTitle)
+        private val icon: ImageView = itemView.findViewById(R.id.noteIcon)
+        private val title: TextView = itemView.findViewById(R.id.noteTitle)
 
         init{
             itemView.setOnClickListener {
@@ -29,7 +30,7 @@ class NoteAdapter(
         }
 
         fun bind(note: NoteEntity) {
-            //icon.setImageResource(note.iconId)
+            icon.setImageResource(note.iconId)
             title.text = note.title
 
             itemView.setOnClickListener{

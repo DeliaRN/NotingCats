@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -81,6 +82,24 @@ class NoteEditorFragment : Fragment() {
         }
 
         /**
+         * Funcionalidad de selector de iconos para cada nota
+         */
+
+        val noteIcon: ImageButton = view.findViewById(R.id.noteIcon)
+        noteIcon.setOnClickListener{
+            val dialog = IconChooserDialogFragment {
+                selectedIconId -> noteIcon.setImageResource(selectedIconId)
+
+                viewModel.setSelectedIcon(selectedIconId)
+            }
+
+            dialog.show(parentFragmentManager, "IconChooserDialog")
+            viewModel.selectedIcon.observe(viewLifecycleOwner) { resId ->
+                noteIcon.setImageResource(resId)
+            }
+        }
+
+        /**
          * Si se está editando una nota, se carga desde la base de datos
          */
 
@@ -89,6 +108,10 @@ class NoteEditorFragment : Fragment() {
                 note.let {
                     titleEditText.setText(it?.title)
                     contentEditText.setText(it?.content)
+                    val noteIcon: ImageButton = view.findViewById(R.id.noteIcon)
+                    if (it != null) {
+                        noteIcon.setBackgroundResource(it.iconId)
+                    }
                 }
 
             }
@@ -117,7 +140,7 @@ class NoteEditorFragment : Fragment() {
     private fun guardarNota() {
         val title = titleEditText.text.toString()
         val content = contentEditText.text.toString()
-        //val icon = view?.findViewById<Image?>(R.id.noteIcon)?.text.toString() ??
+        val iconId = viewModel.selectedIcon.value ?: R.drawable.note_icon1
 
         if (title.isBlank() && content.isBlank()) return //Da igual si puso icono, color, o no
 
@@ -125,6 +148,7 @@ class NoteEditorFragment : Fragment() {
             id = if (args.noteId == -1) 0 else args.noteId,
             title = title,
             content = content,
+            iconId = iconId,
             colorHex = "#ffffff"
         )
 
